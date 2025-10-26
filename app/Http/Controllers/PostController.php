@@ -44,7 +44,13 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $fields = $request->validate([
+            'title' => 'required|max:255',
+            'body' => 'required',
+        ]);
+        $post->update($fields);
+
+        return  ['post' => $post];
     }
 
     /**
@@ -52,6 +58,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return  ['message' => "The post was deleted"];
     }
 }
