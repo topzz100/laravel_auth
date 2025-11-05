@@ -59,8 +59,10 @@ class PostPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Post $post): bool
+    public function modify(User $user, Post $post): Response
     {
-        return false;
+        return $user->id === $post->user_id
+            ? Response::allow()
+            : Response::deny('You do not own this post');
     }
 }
